@@ -1,0 +1,30 @@
+name: MongoDB Connect Example
+
+on:
+  push:
+    branches:
+      - main3
+
+jobs:
+  mongodb-connect:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Create MongoDB URL as env var
+        run: |
+          echo "MONGODB_URL=mongodb://username:password@host:27017/dbname" >> $GITHUB_ENV
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run MongoDB connect script
+        run: node amongodb.js
+        env:
+          MONGODB_URL: ${{ env.MONGODB_URL }}
