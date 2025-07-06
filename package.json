@@ -1,14 +1,16 @@
 {
-  "name": "kaku-duolingo-mongodb-connect",
+  "name": "sakarti-course",
   "version": "1.0.0",
-  "description": "MongoDBに接続するためのサンプルプロジェクト",
-  "main": "connect-mongodb.js",
-  "scripts": {
-    "start": "node connect-mongodb.js"
-  },
+  "private": true,
   "dependencies": {
-    "mongodb": "^5.7.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@librelingo/librelingo-react": "^1.0.0"
   },
-  "author": "",
-  "license": "MIT"
+  "devDependencies": {
+    "parcel": "^2.9.3"
+  },
+  "scripts": {
+    "start": "parcel index.html --open"
+  }
 }
