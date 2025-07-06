@@ -34,7 +34,7 @@ jobs:
       - name: Generate random DB name and set URL
         run: |
           DBNAME="db$(date +%s)"
-          echo "MONGODB_URL=mongodb://localhost:27017/Astral
+          echo "MONGODB_URL=mongodb://localhost:27017/Astral"
           echo "Generated URL: mongodb://localhost:27017/Astral"
 
 
