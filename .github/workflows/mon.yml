@@ -1,34 +1,29 @@
-name: mongodb-url-auto-connect
+name: mongodb-connect
 
 on:
   push:
     branches:
-      - main
+      - main3
 
 jobs:
-  make-and-connect-mongo:
+  test-mongodb:
     runs-on: ubuntu-latest
+    services:
+      mongo:
+        image: mongo:6
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd="mongosh --eval 'db.adminCommand(\"ping\")'"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
     steps:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Generate random mongo credentials & url
-        id: mongourl
-        run: |
-          USER="user$(date +%s)"
-          PASS="$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 12)"
-          DB="db$(date +%s)"
-          HOST="localhost" # 例: MongoDB Atlasの場合は適切なホスト名に
-          PORT="27017"     # ポートも適宜
-          echo "USER=$USER" >> $GITHUB_ENV
-          echo "PASS=$PASS" >> $GITHUB_ENV
-          echo "DB=$DB" >> $GITHUB_ENV
-          echo "MONGODB_URL=mongodb://$USER:$PASS@$HOST:$PORT/$DB" >> $GITHUB_ENV
-
-      - name: Show generated URL (for debug)
-        run: echo $MONGODB_URL
 
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -36,7 +31,14 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Generate random DB name and set URL
+        run: |
+          DBNAME="db$(date +%s)"
+          echo "MONGODB_URL=mongodb://localhost:27017/Astral
+          echo "Generated URL: mongodb://localhost:27017/Astral"
+
+
       - name: Run connect script
-        run: node amongodb.js
+        run: node connect-mongodb.js
         env:
           MONGODB_URL: ${{ env.MONGODB_URL }}
