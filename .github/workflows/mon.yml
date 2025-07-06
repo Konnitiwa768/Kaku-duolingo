@@ -3,7 +3,7 @@ name: MongoDB Connect Example
 on:
   push:
     branches:
-      - main3
+      - main
 
 jobs:
   mongodb-connect:
