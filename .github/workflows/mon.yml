@@ -3,7 +3,7 @@ name: mongodb-connect
 on:
   push:
     branches:
-      - main3
+      - main
 
 jobs:
   test-mongodb:
@@ -39,6 +39,6 @@ jobs:
 
 
       - name: Run connect script
-        run: node connect-mongodb.js
+        run: node amongodb.js
         env:
           MONGODB_URL: ${{ env.MONGODB_URL }}
