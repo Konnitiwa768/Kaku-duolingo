@@ -25,15 +25,14 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          
-      - name: Install dependencie
-        run: npm install
-        
-      - name: Install dependencie
-        run: npm ls lluis
+
+      - name: Clean old dependencies
+        run: |
+          rm -f package-lock.json
+          rm -rf node_modules
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Build project
         run: npm run build
@@ -41,7 +40,7 @@ jobs:
       - name: Upload build output
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist  # ParcelやViteなら通常dist、create-react-appならbuildに変更
+          path: ./build  # create-react-appならbuild
 
   deploy:
     needs: build
