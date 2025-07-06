@@ -1,0 +1,14 @@
+{
+  "name": "kaku-duolingo-mongodb-connect",
+  "version": "1.0.0",
+  "description": "MongoDBに接続するためのサンプルプロジェクト",
+  "main": "connect-mongodb.js",
+  "scripts": {
+    "start": "node connect-mongodb.js"
+  },
+  "dependencies": {
+    "mongodb": "^5.7.0"
+  },
+  "author": "",
+  "license": "MIT"
+}
