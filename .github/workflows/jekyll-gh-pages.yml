@@ -28,6 +28,9 @@ jobs:
           
       - name: Install dependencie
         run: npm install
+        
+      - name: Install dependencie
+        run: npm ls lluis
 
       - name: Install dependencies
         run: npm ci
