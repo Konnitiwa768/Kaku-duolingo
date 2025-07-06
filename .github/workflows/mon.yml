@@ -1,4 +1,4 @@
-name: MongoDB Connect Example
+name: mongodb-url-auto-connect
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  mongodb-connect:
+  make-and-connect-mongo:
     runs-on: ubuntu-latest
     steps:
       - name: Set up Node.js
@@ -14,17 +14,29 @@ jobs:
         with:
           node-version: 20
 
-      - name: Create MongoDB URL as env var
+      - name: Generate random mongo credentials & url
+        id: mongourl
         run: |
-          echo "MONGODB_URL=mongodb://username:password@host:27017/dbname" >> $GITHUB_ENV
+          USER="user$(date +%s)"
+          PASS="$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 12)"
+          DB="db$(date +%s)"
+          HOST="localhost" # 例: MongoDB Atlasの場合は適切なホスト名に
+          PORT="27017"     # ポートも適宜
+          echo "USER=$USER" >> $GITHUB_ENV
+          echo "PASS=$PASS" >> $GITHUB_ENV
+          echo "DB=$DB" >> $GITHUB_ENV
+          echo "MONGODB_URL=mongodb://$USER:$PASS@$HOST:$PORT/$DB" >> $GITHUB_ENV
 
-      - name: Checkout code
+      - name: Show generated URL (for debug)
+        run: echo $MONGODB_URL
+
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Install dependencies
         run: npm install
 
-      - name: Run MongoDB connect script
+      - name: Run connect script
         run: node amongodb.js
         env:
           MONGODB_URL: ${{ env.MONGODB_URL }}
